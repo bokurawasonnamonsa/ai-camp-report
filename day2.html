@@ -159,23 +159,23 @@
 
   <header class="hero">
     <div class="wrap">
-      <span class="eyebrow">AI講習会 3日目 ／ 現状レポート</span>
-      <h1>一本の線が、最初から<br>最後まで通りました。</h1>
+      <span class="eyebrow">AI講習会 2日目 終了時点 ／ 現状レポート</span>
+      <h1>一本の線が、あと一歩で<br>最初から最後まで通ります。</h1>
       <p class="sub">
         合宿の評価基準である「実在するユーザーが、独自ドメインに来て、データを残し、メールを受け取り、実際に決済し、その痕跡が残る」という6つの要件に対する到達状況です。
       </p>
       <div class="headline-stat">
         <div>
           <div class="k">到達した要件</div>
-          <div class="v" style="color:var(--accent-soft);">6<small> / 6</small></div>
+          <div class="v">5<small> / 6</small></div>
         </div>
         <div>
           <div class="k">公開ドメイン</div>
           <div class="v" style="font-size:1.1rem;">commandclock.jp</div>
         </div>
         <div>
-          <div class="k">決済</div>
-          <div class="v" style="font-size:1.1rem;color:var(--accent-soft);">本番稼働中</div>
+          <div class="k">残る作業</div>
+          <div class="v" style="font-size:1.1rem;color:#fcd9a0;">Stripe審査待ちのみ</div>
         </div>
       </div>
     </div>
@@ -193,7 +193,7 @@
         <div class="node done"><div class="dot">✓</div><div class="label">独自<br>ドメイン</div></div>
         <div class="node done"><div class="dot">✓</div><div class="label">データが<br>残る</div></div>
         <div class="node done"><div class="dot">✓</div><div class="label">メールが<br>届く</div></div>
-        <div class="node done"><div class="dot">✓</div><div class="label">本物の<br>決済</div></div>
+        <div class="node pending"><div class="dot">…</div><div class="label">本物の<br>決済</div></div>
         <div class="node done"><div class="dot">✓</div><div class="label">支払いの<br>痕跡</div></div>
       </div>
 
@@ -236,13 +236,13 @@
                 <span class="ev">送信APIの成功ログではなく、配信ステータス <strong style="color:#4ade80;">delivered</strong> を確認。DKIM・SPFを独自ドメインに設定済み</span>
               </td>
             </tr>
-            <tr>
+            <tr class="pending-row">
               <td class="no">5</td>
               <td>本物のカードで決済が通る</td>
-              <td><span class="st ok">✅ 達成</span></td>
+              <td><span class="st wait">⏳ 審査待ち</span></td>
               <td>
-                Stripe本番モードで稼働中
-                <span class="ev">3日目に本人確認書類とコンプライアンス質問への回答を提出し、カード決済が有効化（card_payments: active／charges_enabled: true／payouts_enabled: true）。本番の決済セッション（cs_live_）が発行されることを確認済み</span>
+                Stripe本番アカウントの審査中
+                <span class="ev">事業者情報・銀行口座の提出は完了（details_submitted: true）。追加要求項目もゼロ。Stripe側の承認を待っている状態で、こちらの作業は残っていない</span>
               </td>
             </tr>
             <tr>
@@ -258,10 +258,9 @@
         </table>
       </div>
 
-      <div class="note" style="margin-top:1.5rem;border-left-color:var(--accent);background:rgba(34,197,94,0.07);color:#bbf7d0;">
-        <strong style="color:var(--accent-soft);">6要件すべてが通りました。</strong>
-        実在するユーザーが、独自ドメインに来て、データを残し、メールを受け取り、本物のカードで決済し、その痕跡が残る——
-        この一本の線が、端から端まで実際に動いています。
+      <div class="note" style="margin-top:1.5rem;">
+        <strong>残っているのは5番のみで、それもStripe側の審査待ちです。</strong>
+        審査が通過した時点で、追加の実装なしにそのまま本物の決済が動きます。本番用のキーはすでに設定済みです。
       </div>
     </section>
 
@@ -350,53 +349,32 @@
       </div>
     </section>
 
-    <!-- ============ 3日目 ============ -->
+    <!-- ============ 明日 ============ -->
     <section>
-      <h2>3日目にやったこと</h2>
-      <p class="sec-note">最後の1要件を通すための作業です。</p>
+      <h2>明日やること</h2>
+      <p class="sec-note">3日目に持ち越す項目です。</p>
       <div class="grid">
         <div class="card">
-          <h3>本人確認とコンプライアンス対応</h3>
-          <p>Stripeから求められた本人確認書類と追加質問フォームに回答。カード決済が有効化されました。</p>
+          <h3>① Stripe審査の通過確認</h3>
+          <p>通過していれば、その場で本物のカード決済を実行して一本の線を完結させます。</p>
         </div>
         <div class="card">
-          <h3>本番モードへの切り替え</h3>
-          <p>本番キーを反映して再デプロイ。本番の決済セッション（cs_live_）が発行されることを確認しました。</p>
+          <h3>② 実決済の記録確認</h3>
+          <p>誰がいくら払ったかがオーナー画面に正しく残ることを、本物の決済で確認します。</p>
         </div>
         <div class="card">
-          <h3>商品サイトの分離</h3>
-          <p>commandclock.jp を商品専用にし、合宿に関する記述をすべて削除。本レポートは別サイトに切り出しました。</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ 持ち帰り ============ -->
-    <section>
-      <h2>合宿後に持ち帰る項目</h2>
-      <p class="sec-note">基盤は通ったので、ここからは中身の作り込みです。</p>
-      <div class="grid">
-        <div class="card">
-          <h3>価格の正式決定</h3>
-          <p>現在は検証用の¥100。個人課金かアライアンス課金か、実際の反応を見て確定します。</p>
-        </div>
-        <div class="card">
-          <h3>複数の集結先への対応</h3>
-          <p>現在は全員共通の到着目標が1つのみ。実運用では複数の集結先を同時に管理する必要があります。</p>
-        </div>
-        <div class="card">
-          <h3>Android版への反映</h3>
-          <p>今回作った仕組みを、すでに内部テスト中のAndroidアプリ側に取り込みます。</p>
+          <h3>③ 価格の正式決定</h3>
+          <p>現在は検証用の¥100。個人課金かアライアンス課金か、講師と相談して確定します。</p>
         </div>
       </div>
     </section>
 
     <div class="foot">
-      <a href="/day1.html">1日目</a> &nbsp;·&nbsp;
-      <a href="/day2.html">← 2日目の記録</a> &nbsp;·&nbsp;
+      <a href="/day1.html">← 1日目の記録</a> &nbsp;·&nbsp;
       <a href="/">事業プラン</a> &nbsp;·&nbsp;
-      <a href="https://commandclock.jp" target="_blank" rel="noopener">↗ 製品サイトを開く</a>
+      <a href="/status.html">3日目の記録 →</a>
       <div style="color:#3f4c5f;font-size:0.8rem;margin-top:1rem;">
-        AI講習会 3日目 終了時点の記録 ・ 鎌田 諒
+        AI講習会 2日目 終了時点の記録 ・ 鎌田 諒
       </div>
     </div>
 

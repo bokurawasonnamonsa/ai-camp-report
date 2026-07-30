@@ -262,16 +262,62 @@
   <div class="layout">
     <nav class="toc" id="toc">
       <div class="toc-title">Contents</div>
+      <a href="#log"><span class="num">00</span><span>3日間の記録</span></a>
       <a href="#plan"><span class="num">01</span><span>事業プラン</span></a>
       <a href="#req"><span class="num">02</span><span>要件（全体）</span></a>
       <a href="#goal"><span class="num">03</span><span>合宿のゴール</span></a>
-      <a href="/status.html" class="back">📊 現状レポートを見る</a>
-      <a href="https://commandclock.jp" class="back" style="margin-top:0.5rem;padding-top:0;border-top:none;" target="_blank" rel="noopener">↗ 製品サイトを開く</a>
+      <a href="/day1.html" class="back">📄 1日目の記録</a>
+      <a href="/day2.html" class="back" style="margin-top:0.4rem;padding-top:0;border-top:none;">📄 2日目の記録</a>
+      <a href="/status.html" class="back" style="margin-top:0.4rem;padding-top:0;border-top:none;">📊 3日目の記録（最終）</a>
+      <a href="https://commandclock.jp" class="back" style="margin-top:0.6rem;padding-top:0;border-top:none;" target="_blank" rel="noopener">↗ 製品サイトを開く</a>
     </nav>
 
     <main>
 
       <!-- ============ 01 ============ -->
+      <!-- ============ 3日間の記録 ============ -->
+      <section id="log">
+        <div class="sec-head">
+          <div class="sec-num">00</div>
+          <div>
+            <h2>3日間の記録</h2>
+            <div class="sec-note">各日にやったこと、その日の終わりに残った課題</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <a href="/day1.html" class="card" style="text-decoration:none;color:inherit;display:block;">
+            <div style="font-size:0.72rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.5rem;">DAY 1</div>
+            <h4 style="margin:0 0 0.5rem;font-size:1.05rem;">前提が崩れた日</h4>
+            <p style="margin:0 0 0.9rem;color:var(--muted);font-size:0.9rem;">
+              テーマを確定し競合を調査したところ、差別化の軸に据えていた「同時到着」は競合も実装済みと判明。
+              さらに講師から「AIオーナーではなくAIレイバーではないか」という指摘を受ける。
+            </p>
+            <div style="font-size:0.8rem;color:#fcd9a0;">残った課題: 4件</div>
+          </a>
+
+          <a href="/day2.html" class="card" style="text-decoration:none;color:inherit;display:block;">
+            <div style="font-size:0.72rem;letter-spacing:0.12em;color:var(--muted);margin-bottom:0.5rem;">DAY 2</div>
+            <h4 style="margin:0 0 0.5rem;font-size:1.05rem;">売れる形にした日</h4>
+            <p style="margin:0 0 0.9rem;color:var(--muted);font-size:0.9rem;">
+              独自ドメインを取得し、購入から利用開始までを人手なしで完結させる導線を構築。
+              メールの実配信まで確認。4つの課題はすべて解消。
+            </p>
+            <div style="font-size:0.8rem;color:#fcd9a0;">到達 5/6 ・ 残った課題: Stripe審査待ち</div>
+          </a>
+
+          <a href="/status.html" class="card" style="text-decoration:none;color:inherit;display:block;">
+            <div style="font-size:0.72rem;letter-spacing:0.12em;color:var(--accent-soft);margin-bottom:0.5rem;">DAY 3 — 最終</div>
+            <h4 style="margin:0 0 0.5rem;font-size:1.05rem;">線が通った日</h4>
+            <p style="margin:0 0 0.9rem;color:var(--muted);font-size:0.9rem;">
+              本人確認とコンプライアンス対応を経てStripeの本番決済が有効化。
+              6要件すべてが実際に動く状態に到達した。
+            </p>
+            <div style="font-size:0.8rem;color:var(--accent-soft);">到達 6/6 ・ 達成</div>
+          </a>
+        </div>
+      </section>
+
       <section id="plan">
         <div class="sec-head">
           <div class="sec-num">01</div>

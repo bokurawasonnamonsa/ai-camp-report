@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1日目の記録｜AI講習会</title>
+<link rel="icon" type="image/png" href="/assets/icon.png">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #070b14;
+    --panel: rgba(255,255,255,0.035);
+    --line: rgba(255,255,255,0.09);
+    --text: #e8eef7;
+    --muted: #8fa0b8;
+    --accent: #22c55e;
+    --accent-soft: #4ade80;
+    --amber: #f59e0b;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: 4.5rem 2rem 3.5rem;
+    background-image:
+      linear-gradient(180deg, rgba(7,11,20,0.6) 0%, rgba(7,11,20,0.9) 60%, var(--bg) 100%),
+      url('/assets/status-hero.png');
+    background-size: cover; background-position: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 0.9rem; background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.28); color: var(--accent-soft);
+    border-radius: 999px; font-size: 0.78rem; letter-spacing: 0.06em; margin-bottom: 1.25rem;
+  }
+  .eyebrow::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 10px var(--accent);
+  }
+  h1 { font-size: clamp(1.7rem, 4vw, 2.5rem); margin: 0 0 0.8rem; letter-spacing: -0.01em; line-height: 1.35; }
+  .hero .sub { color: var(--muted); max-width: 640px; margin: 0; font-size: 1rem; }
+
+  .headline-stat {
+    display: flex; flex-wrap: wrap; gap: 2.5rem; margin-top: 2.5rem;
+    padding-top: 1.75rem; border-top: 1px solid var(--line);
+  }
+  .headline-stat .k { font-size: 0.74rem; color: var(--muted); letter-spacing: 0.08em; }
+  .headline-stat .v { font-size: 1.5rem; font-weight: 800; margin-top: 0.1rem; }
+  .headline-stat .v small { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 3.5rem 2rem 6rem; }
+  section { margin-bottom: 4rem; }
+  h2 {
+    font-size: 1.35rem; margin: 0 0 0.4rem; letter-spacing: -0.01em;
+  }
+  .sec-note { color: var(--muted); font-size: 0.87rem; margin: 0 0 1.75rem; }
+
+  /* ---------- the line ---------- */
+  .line-track {
+    position: relative; display: grid;
+    grid-template-columns: repeat(6, 1fr); gap: 0.5rem;
+    padding: 2.5rem 0 1rem;
+  }
+  .line-track::before {
+    content: ''; position: absolute; left: 8%; right: 8%; top: 3.15rem; height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent) 62%, var(--amber) 78%, rgba(245,158,11,0.25) 100%);
+  }
+  .node { position: relative; text-align: center; }
+  .node .dot {
+    width: 22px; height: 22px; border-radius: 50%; margin: 0 auto 0.75rem;
+    display: grid; place-items: center; font-size: 0.7rem; font-weight: 800;
+    position: relative; z-index: 1;
+  }
+  .node.done .dot { background: var(--accent); color: #05210f; box-shadow: 0 0 16px rgba(34,197,94,0.55); }
+  .node.pending .dot {
+    background: var(--bg); color: var(--amber); border: 2px solid var(--amber);
+    box-shadow: 0 0 16px rgba(245,158,11,0.35);
+  }
+  .node .label { font-size: 0.76rem; color: var(--muted); line-height: 1.5; }
+  .node.pending .label { color: #fcd9a0; }
+  @media (max-width: 720px) {
+    .line-track { grid-template-columns: 1fr; gap: 1.25rem; padding-top: 1rem; }
+    .line-track::before { display: none; }
+    .node { display: flex; align-items: center; gap: 0.9rem; text-align: left; }
+    .node .dot { margin: 0; flex-shrink: 0; }
+  }
+
+  /* ---------- table ---------- */
+  .table-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+  th, td { text-align: left; padding: 0.9rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.06em; }
+  tr:last-child td { border-bottom: none; }
+  td.no { color: var(--muted); font-variant-numeric: tabular-nums; width: 44px; }
+  .st { display: inline-flex; align-items: center; gap: 0.4rem; white-space: nowrap; font-weight: 700; font-size: 0.86rem; }
+  .st.ok { color: var(--accent-soft); }
+  .st.wait { color: var(--amber); }
+  tr.pending-row { background: rgba(245,158,11,0.05); }
+  td .ev { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 0.2rem; }
+
+  /* ---------- cards ---------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.4rem 1.5rem;
+  }
+  .card h3 { margin: 0 0 0.5rem; font-size: 1rem; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .card .url { color: var(--accent-soft); font-size: 0.85rem; word-break: break-all; text-decoration: none; }
+  .card .url:hover { text-decoration: underline; }
+
+  /* ---------- steps ---------- */
+  .steps { counter-reset: s; list-style: none; padding: 0; margin: 0; }
+  .steps li {
+    counter-increment: s; position: relative; padding-left: 3rem;
+    margin-bottom: 1.25rem; font-size: 0.94rem;
+  }
+  .steps li::before {
+    content: counter(s); position: absolute; left: 0; top: 0.1rem;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.35);
+    color: var(--accent-soft); font-size: 0.8rem; font-weight: 700;
+    display: grid; place-items: center;
+  }
+  .steps li .d { display: block; color: var(--muted); font-size: 0.85rem; }
+
+  .note {
+    border-left: 3px solid var(--amber); background: rgba(245,158,11,0.07);
+    padding: 1rem 1.25rem; border-radius: 0 10px 10px 0; font-size: 0.9rem; color: #fcd9a0;
+  }
+  .note strong { color: #fde9c0; }
+
+  .stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.82rem;
+    background: rgba(255,255,255,0.05); border: 1px solid var(--line); color: #cbd5e1;
+  }
+
+  .foot { text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+  .foot a { color: #5b6b81; text-decoration: none; font-size: 0.85rem; }
+  .foot a:hover { color: var(--accent-soft); }
+
+  @media (max-width: 720px) {
+    .hero, main { padding-left: 1.35rem; padding-right: 1.35rem; }
+    .headline-stat { gap: 1.5rem; }
+  }
+</style>
+<style>
+  td.no { color: var(--muted); font-variant-numeric: tabular-nums; width: 44px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1rem; }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">AI講習会 1日目 ／ 記録</span>
+      <h1>作るものは決まっていた。<br>だが「誰が働くのか」を問われた。</h1>
+      <p class="sub">
+        すでに動いているツールを持ち込んだ初日。講師からの指摘で、事業の前提そのものを組み替えることになりました。
+      </p>
+      <div class="headline-stat">
+        <div>
+          <div class="k">持ち込んだもの</div>
+          <div class="v" style="font-size:1.1rem;">稼働中のツール</div>
+        </div>
+        <div>
+          <div class="k">初日の指摘</div>
+          <div class="v" style="font-size:1.1rem;color:#fcd9a0;">AIレイバー化</div>
+        </div>
+        <div>
+          <div class="k">競合調査の結果</div>
+          <div class="v" style="font-size:1.1rem;color:#fcd9a0;">差別化軸の崩壊</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>この日やったこと</h2>
+      <p class="sec-note">テーマの確定、競合調査、そして講師レビュー。</p>
+
+      <h3 style="font-size:0.78rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin:0 0 0.9rem;">① テーマの確定</h3>
+      <div class="card" style="margin-bottom:2rem;">
+        <p style="margin:0 0 0.6rem;">携帯戦略ゲーム向け、同期カウントダウン支援アプリ（Android／iPhone）。</p>
+        <p style="margin:0;color:var(--muted);font-size:0.92rem;">
+          50〜100人が別々の位置から動くため、全員を同時に出発させても到着はバラバラになる。
+          揃えるべきは出発ではなく到着であり、各自の移動時間から個別のスタートタイミングを逆算して、
+          一人ひとりの端末にカウントダウンを配信する。
+        </p>
+      </div>
+
+      <h3 style="font-size:0.78rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin:0 0 0.9rem;">② 現状の棚卸し</h3>
+      <div class="grid" style="margin-bottom:2rem;">
+        <div class="card">
+          <h3>すでに稼働中</h3>
+          <p>アプリは開発済みで、100人規模で毎月稼働している。残作業は微修正のみ。</p>
+        </div>
+        <div class="card">
+          <h3>オーバーレイ対応済み</h3>
+          <p>ゲーム画面の上に、自分専用のカウントダウンが表示される状態まで実装できている。</p>
+        </div>
+        <div class="card">
+          <h3>収益化はこれから</h3>
+          <p>課金の仕組みはまだない。想定は個人課金で月500〜1,000円。</p>
+        </div>
+      </div>
+
+      <h3 style="font-size:0.78rem;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin:0 0 0.9rem;">③ 競合調査</h3>
+      <div class="table-wrap" style="margin-bottom:1rem;">
+        <table>
+          <thead><tr><th>競合</th><th>形態</th><th>価格帯</th></tr></thead>
+          <tbody>
+            <tr><td>アライアンス管理サービス</td><td>Discord上のサブスク型</td><td>〜月20円/人</td></tr>
+            <tr><td>Discordボット（複数）</td><td>無料・オープンソース</td><td>無料</td></tr>
+            <tr><td>ブラウザタイマー</td><td>Webツール</td><td>無料</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">
+        <strong>「同時到着」自体は、すでに複数のツールが実装済みだった。</strong>
+        当初これを差別化の軸に据えていたため、前提が崩れた。
+        ただし、いずれもDiscordボットかWebツールであり、<strong>ゲーム画面に重ねて表示できるものは一つもない</strong>ことが判明。
+        差別化軸を「同時到着ができること」から「ゲームから離れずに、自分専用のタイミングが目の前に出ていること」へ置き換えることにした。
+      </div>
+    </section>
+
+    <section>
+      <h2>講師からの指摘</h2>
+      <p class="sec-note">この日いちばん重い指摘。事業の構造そのものへの問いでした。</p>
+      <div class="note" style="border-left-color:#f87171;background:rgba(248,113,113,0.07);color:#fca5a5;">
+        <strong style="color:#fecaca;">「それはAIオーナーではなく、AIレイバーではないか」</strong><br><br>
+        現場対応を自分が担う前提で組み立てられており、そのままでは<strong>自分のキャパシティが売上の上限</strong>になる。
+        AIに任せているのは個別プログラムの作成であって、自分のノウハウ部分ではない。
+        この形だと、AIを操作する人として永遠に working し続けることになる。
+      </div>
+      <div class="grid" style="margin-top:1.5rem;">
+        <div class="card">
+          <h3>手放さない領域</h3>
+          <p>プレイヤーとしての当事者感覚、仕様の判断、品質のジャッジ。</p>
+        </div>
+        <div class="card">
+          <h3>AIに任せる領域</h3>
+          <p>実装・改修・リリース、多言語対応、ユーザーサポート、数値モニタリングと改善提案。</p>
+        </div>
+        <div class="card">
+          <h3>3年後の到達点</h3>
+          <p>特定ゲームの攻略ツールではなく「大人数を一点に揃える同期エンジン」として横展開し、稼働時間と売上を切り離す。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>この日の終わりに残った課題</h2>
+      <p class="sec-note">2日目以降へ持ち越した宿題です。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>課題</th><th>背景</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="no">1</td>
+              <td>現在の利用実績を数字で整理する</td>
+              <td>「100人規模」と言っているが、裏付けとなる数字を出せていなかった。</td>
+            </tr>
+            <tr>
+              <td class="no">2</td>
+              <td>課金モデルと価格を決める</td>
+              <td>競合が無料〜月20円/人と判明し、想定していた月500〜1,000円の個人課金が成立しない可能性が出た。</td>
+            </tr>
+            <tr>
+              <td class="no">3</td>
+              <td>AB3C分析を作り直す</td>
+              <td>差別化軸が「同時到着」のままでは、競合と区別がつかない。</td>
+            </tr>
+            <tr>
+              <td class="no">4</td>
+              <td>要望・不具合をAIに分類させ、開発計画を出す</td>
+              <td>AIオーナーシップの検証として、判断以外をAIに渡す流れを一度動かす必要があった。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note" style="margin-top:1.5rem;">
+        あわせて、当初案にあった「自分のギルド以外で1件使ってもらう」「他メンバーだけで運用してみる」といった
+        <strong>他者を巻き込む検証は、ゲームのイベント日程に左右されるため講習中には実行不可能</strong>と判断し、
+        すべて自分ひとりで完結する項目に組み替えた。
+      </div>
+    </section>
+
+    <div class="foot">
+      <a href="/">← 事業プランへ戻る</a> &nbsp;·&nbsp;
+      <a href="/day2.html">2日目の記録へ →</a>
+      <div style="color:#3f4c5f;font-size:0.8rem;margin-top:1rem;">
+        AI講習会 1日目の記録 ・ 鎌田 諒
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
